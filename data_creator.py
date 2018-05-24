@@ -40,18 +40,6 @@ def generate_fixedgrid_traindata(x, y,steps):
     return [feats,labels]
 
 #feat, res = generate_fixedgrid_traindata(20,20,0.1)
-
-#print(feat)
-#print(len(res))
-
 #np.save('20x20_10cm_test_feats',feat)
 #np.save('20x20_10cm_test_labels',res)
 
-arr = np.load('20x20_10cm_test_feats.npy')
-arr2 = np.load('20x20_10cm_nv10_feats.npy')
-
-
-print(arr[1])
-print(arr2[1])
-#print(arr)
-#print(len(arr))

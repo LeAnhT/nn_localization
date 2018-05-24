@@ -51,8 +51,9 @@ optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(total_err)
 init = tf.global_variables_initializer()
 
 
-'''
+
 #---------- TRAIN NEURAL NET, run Tensorflow-Session, train the model and save the model under 'SAVE_FILE'
+#---------- you might want to comment this session when evaluating the model
 with tf.Session() as train_sess:
     train_sess.run(init)
     for i in range(epochs):
@@ -60,7 +61,7 @@ with tf.Session() as train_sess:
     #save model
     train_sess.save(train_sess, SAVE_FILE)
 train_sess.close()
-'''
+
 
 #----------- TEST NEURAL NET, load trained model, feed it with the grid-data and output it's prediction
 
