@@ -31,4 +31,5 @@ def plot_grid_contour(x_size,y_size,step,grid_errors,x_label,y_label):
     plt.xlabel(x_label)
     plt.ylabel(y_label)
     plt.set_cmap('Greys')
+    plt.clim(0,0.4)
     plt.show()
