@@ -3,9 +3,9 @@ import tensorflow as tf
 import plot_helper as ph
 
 #path-variables for saving and loading model
-SAVE_FILE = 'C:/Anchors/2l_10cm_nv10cm_model/anchors_nn'
-SAVE_DIRECTORY = 'C:/Anchors/2l_10cm_nv10cm_model'
-LOAD_FILE = 'C:/Anchors/2l_10cm_nv10cm_model/anchors_nn.meta'
+SAVE_FILE = 'C:/Anchors/2l_10cm_model/anchors_nn'
+SAVE_DIRECTORY = 'C:/Anchors/2l_10cm_model'
+LOAD_FILE = 'C:/Anchors/2l_10cm_model/anchors_nn.meta'
 
 
 #optimization parameters
@@ -13,8 +13,8 @@ learning_rate = 0.00001
 epochs = 100000
 
 # grid-points as input, training-features = test-features
-total_features = np.load('20x20_10cm_test_feats.npy')
-total_labels = np.load('20x20_10cm_test_labels.npy')
+total_features = np.load('20x20_10cm_feats.npy')
+total_labels = np.load('20x20_10cm_labels.npy')
 
 # placeholders, "x" represents the input nodes(12 in total)
 # "y" represents the output nodes (2 in total)
@@ -44,6 +44,15 @@ def feed_forward():
     total_error = tf.reduce_mean(tf.square(y-prediction))
     return [prediction, total_error]
 
+def make_prediction():
+    #result of the first hidden-layer
+    hl1_out = tf.add(tf.matmul(x,w1),b1)
+    #result of the second hidden-layer
+    hl2_out = tf.add(tf.matmul(hl1_out,w2),b2)
+    prediction = tf.add(tf.matmul(hl2_out,w3),b3)
+    return prediction
+
+
 pred, total_err = feed_forward()
 
 saver = tf.train.Saver()
@@ -51,7 +60,7 @@ optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(total_err)
 init = tf.global_variables_initializer()
 
 
-
+'''
 #---------- TRAIN NEURAL NET, run Tensorflow-Session, train the model and save the model under 'SAVE_FILE'
 #---------- you might want to comment this session when evaluating the model
 with tf.Session() as train_sess:
@@ -61,7 +70,7 @@ with tf.Session() as train_sess:
     #save model
     train_sess.save(train_sess, SAVE_FILE)
 train_sess.close()
-
+'''
 
 #----------- TEST NEURAL NET, load trained model, feed it with the grid-data and output it's prediction
 
@@ -88,6 +97,8 @@ with tf.Session() as eval_sess:
         error_per_prediction.append(error)
 eval_sess.close()
 
+'''
 ph.plot_ecdf(error_per_prediction,'Error','Cumulative Percent')
-ph.plot_grid_contour(20,20,0.1,error_per_prediction,'X Position (cm)','Y Position (cm)')
+ph.plot_grid_contour(20,20,0.1,error_per_prediction,'X Position (m)','Y Position (m)')
 ph.simple_plot(error_per_prediction,'X th Prediction','Error')
+'''
